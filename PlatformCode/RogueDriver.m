@@ -65,7 +65,6 @@ static RogueScene *scene;
     theMainView = skGameView;
     
 	[mainWindow setFrameAutosaveName:@"Brogue main window"];
-	[mainWindow useOptimizedDrawing:YES];
 	[mainWindow setAcceptsMouseMovedEvents:YES];
 
     // Comment out this line if you're trying to compile on a system earlier than OS X 10.7:
@@ -215,13 +214,13 @@ void nextKeyOrMouseEvent(rogueEvent *returnEvent, __unused boolean textInput, bo
         scene.aEvent = nil;
         
         theEventType = [theEvent type];
-        if (theEventType == NSKeyDown && !([theEvent modifierFlags] & NSCommandKeyMask)) {
+        if (theEventType == NSEventTypeKeyDown && !([theEvent modifierFlags] & NSEventModifierFlagCommand)) {
             returnEvent->eventType = KEYSTROKE;
             returnEvent->param1 = [[theEvent charactersIgnoringModifiers] characterAtIndex:0];
             //printf("\nKey pressed: %i", returnEvent->param1);
             returnEvent->param2 = 0;
-            returnEvent->controlKey = ([theEvent modifierFlags] & NSControlKeyMask ? 1 : 0);
-            returnEvent->shiftKey = ([theEvent modifierFlags] & NSShiftKeyMask ? 1 : 0);
+            returnEvent->controlKey = ([theEvent modifierFlags] & NSEventModifierFlagControl ? 1 : 0);
+            returnEvent->shiftKey = ([theEvent modifierFlags] & NSEventModifierFlagShift ? 1 : 0);
             break;
         } else if (theEventType == NSEventTypeLeftMouseDown
                    || theEventType == NSEventTypeLeftMouseUp
@@ -256,8 +255,8 @@ void nextKeyOrMouseEvent(rogueEvent *returnEvent, __unused boolean textInput, bo
             eventLocation(theEvent, &x, &y);
             returnEvent->param1 = x;
             returnEvent->param2 = y;
-            returnEvent->controlKey = ([theEvent modifierFlags] & NSControlKeyMask ? 1 : 0);
-            returnEvent->shiftKey = ([theEvent modifierFlags] & NSShiftKeyMask ? 1 : 0);
+            returnEvent->controlKey = ([theEvent modifierFlags] & NSEventModifierFlagControl ? 1 : 0);
+            returnEvent->shiftKey = ([theEvent modifierFlags] & NSEventModifierFlagShift ? 1 : 0);
             mouseX = x;
             mouseY = y;
             break;
@@ -280,11 +279,11 @@ void nextKeyOrMouseEvent(rogueEvent *returnEvent, __unused boolean textInput, bo
 }
 
 boolean controlKeyIsDown() {
-	return (([[NSApp currentEvent] modifierFlags] & NSControlKeyMask) ? true : false);
+    return (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagControl) ? true : false);
 }
 
 boolean shiftKeyIsDown() {
-	return (([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) ? true : false);
+    return (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) ? true : false);
 }
 
 void initHighScores() {

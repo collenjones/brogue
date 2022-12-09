@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 // To see Swift classes from ObjC they MUST be prefaced with @objc and be public/open
-@objc public class RogueScene: SKScene {
+@objcMembers public class RogueScene: SKScene {
     fileprivate let rows: Int
     fileprivate let cols: Int
     
@@ -28,7 +28,7 @@ import GameplayKit
         let char: NSString = "M" // Good letter to do the base calculations from
         let calcBounds: CGRect = char.boundingRect(with: NSMakeSize(0, 0),
                                                    options: [.usesDeviceMetrics, .usesFontLeading],
-                                                   attributes: [NSFontAttributeName: NSFont(name: "Arial Unicode MS", size: 120)!])
+                                                   attributes: [NSAttributedString.Key.font: NSFont(name: "Arial Unicode MS", size: 120)!])
         return min(self.cellWidth / calcBounds.width, self.cellHeight / calcBounds.height)
     }()
     
@@ -145,7 +145,7 @@ fileprivate extension RogueScene {
                 }
             }
             
-            var drawingOptions: NSStringDrawingOptions {
+            var drawingOptions: NSString.DrawingOptions {
                 switch self {
                 case .letter:
                     return [.usesFontLeading]
@@ -195,7 +195,7 @@ fileprivate extension RogueScene {
         var surface: NSImage {
             // Calculate font scale factor
             var scaleFactor: CGFloat {
-                let calcAttributes = [NSFontAttributeName: calcFont]
+                let calcAttributes = [NSAttributedString.Key.font: calcFont]
                 // If we calculate with the descender, the line height will be centered incorrectly for letters
                 let calcOptions = glyphType.drawingOptions
                 let calcBounds = text.boundingRect(with: NSMakeSize(0, 0), options: calcOptions, attributes: calcAttributes)
@@ -208,8 +208,8 @@ fileprivate extension RogueScene {
             // Actual font that we're going to render
             let font = NSFont(name: glyphType.fontName, size: fontSize * scaleFactor)!
             let fontAttributes = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: SKColor.white // White so we can blend it
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.foregroundColor: SKColor.white // White so we can blend it
             ]
             
             let realBounds: CGRect = text.boundingRect(with: NSMakeSize(0, 0), options: glyphType.drawingOptions, attributes: fontAttributes)
