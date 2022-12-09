@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 // To see Swift classes from ObjC they MUST be prefaced with @objc and be public/open
-@objc public class RogueScene: SKScene {
+@objcMembers public class RogueScene: SKScene {
     fileprivate let rows: Int
     fileprivate let cols: Int
     

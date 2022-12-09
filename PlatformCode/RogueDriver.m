@@ -283,7 +283,7 @@ boolean controlKeyIsDown() {
 }
 
 boolean shiftKeyIsDown() {
-	return (([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) ? true : false);
+    return (([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) ? true : false);
 }
 
 void initHighScores() {
